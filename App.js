@@ -17,7 +17,7 @@ export default class App extends Component {
           onValueChange={(switchValue) => this.setState({ switchValue })}
         />
         <Image
-          source={require('./lightbul.png')} 
+          source={require('./lightbulb.png')} 
         />
         <Text style={[styles.textStyle, { color: switchValue ? 'black' : 'white' }]}>
           {switchValue ? 'ON' : 'OFF'}
