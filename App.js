@@ -1,27 +1,29 @@
-import React, { Component } from 'react';
-import { View, Text, Switch, StyleSheet, Image } from 'react-native';
+import React from 'react';
+import { Text, View, Switch, StyleSheet, Image } from 'react-native';
 
-export default class App extends Component {
+export default class App extends React.Component {
   state = {
-    switchValue: false
-  }
+    switchValue: false,
+    backgroundColor: '#000000',
+    color: 'lightColor',
+    bulbImage: require('./lightbulbOff.jpg')
+  };
 
-  render() {
-    const { switchValue } = this.state;
+  handleSwitchToggle = (switchValue) => {
+    const backgroundColor = switchValue ? '#FFFF00' : '#000000';
+    const color = switchValue ? 'darkColor' : 'lightColor';
+    const bulbImage = switchValue ? require('./lightbulbOn.png') : require('./lightbulbOff.jpg');
+    this.setState({ switchValue, backgroundColor, color, bulbImage });
+  };
+
+  render(){
     return (
-      <View style={[styles.container, { backgroundColor: switchValue ? 'yellow' : 'black' }]}>
-        <Text style={[styles.textStyle, { color: switchValue ? 'black' : 'white' }]}></Text>
-        <Switch
-          style={{ marginBottom: 10 }}
-          value={switchValue}
-          onValueChange={(switchValue) => this.setState({ switchValue })}
-        />
-        <Image
-          source={require('./lightbulb.png')} 
-        />
-        <Text style={[styles.textStyle, { color: switchValue ? 'black' : 'white' }]}>
-          {switchValue ? 'ON' : 'OFF'}
-        </Text>
+      <View style={[styles.container, { backgroundColor: this.state.backgroundColor }]}>
+        <Text style={[styles.textTitle, styles[this.state.color]]}>Light bulb with switch</Text>
+        <Text style={[styles.textSubTitle, styles[this.state.color]]}>AMC MP1</Text>
+        <Image source={this.state.bulbImage} style={styles.bulbImage} />
+        <Switch value={this.state.switchValue} onValueChange={this.handleSwitchToggle}/>
+        <Text style={[styles.switchStateText, styles[this.state.color]]}>{this.state.switchValue ? 'ON' : 'OFF'}</Text>
       </View>
     );
   }
@@ -30,24 +32,32 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  textStyle: {
-    margin: 24,
-    fontSize: 25,
-    fontWeight: 'bold',
+  bulbImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 30,
+  },
+  textTitle: {
+    fontSize: 30,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
-  Lightbulb: {
-    width: 50,
-    height: 50,
-    size: 50,
+  textSubTitle: {
+    fontSize: 25,
+    textAlign: 'center',
+    marginBottom: 50,
+  },
+  lightColor: {
+    color: '#ffffff',
+  },
+  darkColor: {
+    color: '#000000',
+  },
+  switchStateText: {
+    fontSize: 20,
+    marginTop: 10,
   },
 });
-
-
-
-
-
-
